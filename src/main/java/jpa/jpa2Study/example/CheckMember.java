@@ -1,4 +1,4 @@
-package jpa.jpa2Study.jpashop;
+package jpa.jpa2Study.example;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class Member {
+public class CheckMember {
 
     @Id
     @GeneratedValue
