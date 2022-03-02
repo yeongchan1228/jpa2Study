@@ -1,4 +1,4 @@
-package jpa.jpa2Study.jpashop;
+package jpa.jpa2Study.example;
 
 import jpa.jpa2Study.example.CheckMember;
 import jpa.jpa2Study.example.CheckMemberRepository;
