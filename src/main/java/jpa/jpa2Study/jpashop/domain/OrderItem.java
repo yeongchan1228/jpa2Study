@@ -1,12 +1,15 @@
 package jpa.jpa2Study.jpashop.domain;
 
 import jpa.jpa2Study.jpashop.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자를 쓰지말고 createOrderItem을 사용하라고 제한함.
 @Getter @Setter
 public class OrderItem {
 
@@ -16,7 +19,7 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "itemid")
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -14,7 +14,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // JOINED -> 가장 정규화된 스타일, SINGLE_TABLE ->  한 테이블에 전부 다, TABLE_PER_CLASS -> 클래스 당 테이블
 @DiscriminatorColumn(name = "dtype") // 구분자 -> Singletable일 때 구분할 수 있도록 해주는 컬럼 지정
 @Getter
-//@Setter 세터로 값을 변경하는 것이 아닌 비지니스 로직을 가지고 값을 변경해야 한다.
+@Setter //세터로 값을 변경하는 것이 아닌 비지니스 로직을 가지고 값을 변경해야 한다.
 public abstract class Item {
 
     @Id @GeneratedValue

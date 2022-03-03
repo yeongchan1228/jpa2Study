@@ -1,6 +1,8 @@
 package jpa.jpa2Study.jpashop.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Table(name = "orders")
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // createOrder를 사용해서 Order를 생성하라고 제한하기 위해 protected로 생성자 사용 제한
 public class Order {
 
     @Id @GeneratedValue
@@ -28,7 +31,7 @@ public class Order {
     // 여기서 orderItem은 Order의 완전 소유물이므로 사용해도 된다.
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // order를 persist하거나 delete할 때 deilvery가 변경되면 이도 같이 persist 해준다.
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // order를 persist하거나 delete할 때 deilvery안의 내용이ㅐㄱㄷ 변경되면 이도 같이 persist 해준다.
     @JoinColumn(name = "delivery_id") // onetoone일때 보통 자주 쓰는 곳에 외래키를 넣는다.
     private Delivery delivery;
 
@@ -74,6 +77,9 @@ public class Order {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
+    /*protected Order() { // createOrder를 사용해서 Order를 생성하라고 제한하기 위해 protected로 생성자 사용 제한
+    }*/
 
     //생성 메서드
     public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems){
