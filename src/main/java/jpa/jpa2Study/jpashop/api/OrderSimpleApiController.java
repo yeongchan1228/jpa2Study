@@ -5,7 +5,8 @@ import jpa.jpa2Study.jpashop.domain.Order;
 import jpa.jpa2Study.jpashop.domain.OrderStatus;
 import jpa.jpa2Study.jpashop.repository.OrderRepository;
 import jpa.jpa2Study.jpashop.repository.OrderSearch;
-import jpa.jpa2Study.jpashop.repository.OrderSimpleQueryDto;
+import jpa.jpa2Study.jpashop.repository.api.OrderApiRepository;
+import jpa.jpa2Study.jpashop.repository.dto.OrderSimpleQueryDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public class OrderSimpleApiController {
 
     private final OrderRepository orderRepository;
+    private final OrderApiRepository orderApiRepository;
 
 
     /**
@@ -74,11 +76,13 @@ public class OrderSimpleApiController {
     /**
      * Repository 내에서 Dto를 사용하여 가져온다.
      * Join을 사용하여 내가 필요한 필드들만 Dto로 만들어 뿌린다.
+     * v3과 v4는 큰 성능 차이는 없다.
+     * v3 : 재사용성 O
+     * v4 : 재사용성 X
      */
     @GetMapping("/v4/simple-orders")
     public List<OrderSimpleQueryDto> ordersV4(){
-
-        return orderRepository.findOrderDtos();
+        return orderApiRepository.findOrders();
     }
 
     @Data

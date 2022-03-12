@@ -1,4 +1,4 @@
-package jpa.jpa2Study.jpashop.repository;
+package jpa.jpa2Study.jpashop.repository.dto;
 
 import jpa.jpa2Study.jpashop.domain.Address;
 import jpa.jpa2Study.jpashop.domain.OrderStatus;

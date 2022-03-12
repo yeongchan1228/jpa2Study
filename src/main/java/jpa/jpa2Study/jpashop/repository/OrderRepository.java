@@ -1,6 +1,7 @@
 package jpa.jpa2Study.jpashop.repository;
 
 import jpa.jpa2Study.jpashop.domain.Order;
+import jpa.jpa2Study.jpashop.repository.dto.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -8,7 +9,6 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
