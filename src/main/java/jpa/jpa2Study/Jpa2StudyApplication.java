@@ -1,7 +1,9 @@
 package jpa.jpa2Study;
 
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Jpa2StudyApplication {
@@ -10,4 +12,8 @@ public class Jpa2StudyApplication {
 		SpringApplication.run(Jpa2StudyApplication.class, args);
 	}
 
+	/*@Bean
+	Hibernate5Module hibernate5Module() {
+		return new Hibernate5Module();
+	}*/
 }

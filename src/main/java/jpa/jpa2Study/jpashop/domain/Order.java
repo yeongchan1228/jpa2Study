@@ -20,7 +20,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // Order 엔티티를 가져올 때 member는 프록시 객체로 채워져 있기 때문에 Order를 조회할 때 오류가 발생한다.
     @JoinColumn(name = "member_id")
     private Member member;
 

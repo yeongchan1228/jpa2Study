@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -67,5 +68,22 @@ public class OrderRepository {
             query = query.setParameter("name", orderSearch.getMemberName());
         }
         return query.getResultList();
+    }
+
+    public List<Order> findAllWithDeliveryMember() {
+        String jpql = "select o from Order o join fetch o.member m join fetch o.delivery d";
+        List<Order> resultList = em.createQuery(jpql, Order.class)
+                .getResultList();
+        return resultList;
+    }
+
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+        return em.createQuery("select new jpa.jpa2Study.jpashop.repository.OrderSimpleQueryDto(" +
+                        "o.id, m.name, o.orderDate, o.status, d.address)" +
+                        " from Order o " +
+                        "join o.member m" +
+                        " join o.delivery d",
+                OrderSimpleQueryDto.class).getResultList();
+
     }
 }
