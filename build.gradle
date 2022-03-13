@@ -24,7 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-devtools' // 리로딩(서버 실행 중 html 변경 등) 지원
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5' // 지연 로딩 시 프록시 객체가 채워지는데 이 프록시 객체를 JSON이 어떻게 처리해야 하는지 모르기 때문에 이를 알려주기 위한 설정
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5' // 지연 로딩 시 프록시 객체가 채워지는데 이 프록시 객체를 JSON이 어떻게 처리해야 하는지 모르기 때문에 이를 알려주기 위한 설정
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6' // 쿼리 파라미터 로그 남기기 P6Spy 사용, 운영 배포 단계에서는 사용 X, 성능 저하 유발
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'

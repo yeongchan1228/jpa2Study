@@ -77,6 +77,32 @@ public class OrderRepository {
         return resultList;
     }
 
+    public List<Order> findAllWithItem() {
+
+        // distinct를 사용해서 order의 중복을 제거함 -> 4개가 2개 됨.
+        String jpql = "select distinct o from Order o join fetch o.member m join fetch o.delivery d join fetch o.orderItems oi "
+                + "join fetch oi.item i"; // -> Order는 2개 OrderItem은 4개여서 총 결과가 4개로 뻥튀기 된다. -> 가장 많은 개수를 따라감.
+
+        return em.createQuery(jpql, Order.class).getResultList();
+    }
+
+
+
+    /**
+     * 패치 조인 페이징 하기
+     * 1. @ToOne 관계를 전부 패치 조인한다. -> 여기서 Order랑 @ToOne 관계는 Member, Delivery 그래서 findAllWithDeliveryMember 사용
+     * 2. 컬렉션은 지연 로딩으로 냅두기
+     * 3. batchsize로 지연로딩 최적화 -> hirbernate.default_batch_fetch_size = 100~1000, @Batchsize()로 최적화
+     *  -> 정해진 개수만큼 미리 땡겨온다. -> 즉, 프록시 객체를 지정한 사이즈만큼 in 쿼리(하나의 쿼리)로 불러 놓는다. -> N+1에서 조금 해방 -> 사이즈에 따라 1+1로 최적화
+     */
+    public List<Order> findAllWithDeliveryMember(int offset, int limit) {
+        String jpql = "select o from Order o join fetch o.member m join fetch o.delivery d";
+        return em.createQuery(jpql, Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
     /*public List<OrderSimpleQueryDto> findOrderDtos() {
         return em.createQuery("select new jpa.jpa2Study.jpashop.repository.dto.OrderSimpleQueryDto(" +
                         "o.id, m.name, o.orderDate, o.status, d.address)" +
