@@ -1,7 +1,9 @@
 package jpa.jpa2Study.jpashop.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpa.jpa2Study.jpashop.domain.Order;
-import jpa.jpa2Study.jpashop.repository.dto.OrderSimpleQueryDto;
+import jpa.jpa2Study.jpashop.domain.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -10,11 +12,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+import static jpa.jpa2Study.jpashop.domain.QMember.*;
+import static jpa.jpa2Study.jpashop.domain.QOrder.*;
+
 @Repository
-@RequiredArgsConstructor
 public class OrderRepository {
 
     private final EntityManager em;
+    private final JPAQueryFactory query;
+
+    public OrderRepository(EntityManager em) {
+        this.em = em;
+        this.query = new JPAQueryFactory(em);
+    }
 
     public void save(Order order){
         em.persist(order);
@@ -22,6 +32,34 @@ public class OrderRepository {
 
     public Order findOne(Long id){
         return em.find(Order.class, id);
+    }
+
+    // queryDsl 동적 쿼리 조회 적용
+    public List<Order> findAllWithQueryDSL(OrderSearch orderSearch){
+
+        return query
+                .select(order)
+                .from(order)
+                .join(order.member, member) // order 안의 member와 조인하며 member는 별명이다.
+                .where(statusEq(orderSearch.getOrderStatus()), nameLike(orderSearch.getMemberName()))
+                .limit(1000)
+                .fetch();
+    }
+
+    //queryDsl 동적 쿼리 처리
+    private BooleanExpression nameLike(String memberName) {
+        if(!StringUtils.hasText(memberName))
+            return null;
+
+        return member.name.like(memberName);
+    }
+
+    //queryDsl 동적 쿼리 처리
+    public BooleanExpression statusEq(OrderStatus statusCond){
+        if(statusCond == null)
+            return null;
+
+        return order.status.eq(statusCond);
     }
 
     public List<Order> findAll(OrderSearch orderSearch){
